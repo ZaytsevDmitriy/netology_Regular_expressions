@@ -1,7 +1,6 @@
 
-
-
 class text_editor:
+
     def format_number(C_list):
         number_patern = r"\+*(7|8)??\s*\(*(\d{3})\)*[\s-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})\s*\(*(доб.\s*\d+)*\)*"
         number_repl = r'+7(\2)\3-\4-\5 \6'
@@ -14,15 +13,12 @@ class text_editor:
         return (new_number_list)
 
     def format_name(C_list_2):
-        name_patern = r'^([А-ЯЁа-яё]+)(\s*)(\,?)([А-ЯЁа-яё]+)(\s*)(\,?)([А-ЯЁа-яё]*)(\,?)(\,?)(\,?)'
-        name_repl = r'\1\3\10 \4\6\9 \7\8'
-        new_number_list = []
+        new_list = list()
         for i in C_list_2:
-            i_str = ','.join(i)
-            format_i = re.sub(name_patern, name_repl, i_str)
-            i_list = format_i.split(',')
-            new_number_list.append(i_list)
-        return (new_number_list)
+            name = ' '.join(i[:3]).split(' ')
+            result = [name[0], name[1], name[2], i[3], i[4], i[5], i[6]]
+            new_list.append(result)
+        return new_list
 
     def duplicates(C_list_3):
         for i in C_list_3:
@@ -58,7 +54,7 @@ if __name__ == "__main__":
     change_name = text.format_name(change_numbers)
     del_duplicates = text.duplicates(change_name)
 
-with open("phonebook.csv", "w", encoding="utf-8") as f:
-    datawriter = csv.writer(f, delimiter=',')
-    # Вместо contacts_list подставьте свой список
-    datawriter.writerows(del_duplicates)
+    with open("phonebook.csv", "w", encoding="utf-8") as f:
+        datawriter = csv.writer(f, delimiter=',')
+        # Вместо contacts_list подставьте свой список
+        datawriter.writerows(del_duplicates)
